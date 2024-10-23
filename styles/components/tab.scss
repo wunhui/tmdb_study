@@ -1,0 +1,18 @@
+.tab_wrap {
+    margin: 40px 20px;
+    ul {
+        display: flex;
+        white-space: nowrap;
+        overflow-y: auto;
+        .tab_list{
+            padding: 12px 16px;
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            background-color: #1c2024;
+            color: $White;
+            &:not(&:first-child) {
+                margin-left: 14px;
+            }
+        }
+    }
+}

@@ -1,0 +1,78 @@
+.movie_detail_wrap {
+    position: relative;
+    padding: 40px 20px 20px;
+    text-align: center;
+    color: $White;
+    .btn_back {
+        position: absolute;
+        top: 6px;
+        left: 20px;
+        font-size: 24px;
+    }
+    .movie_detail_backdrop {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 24px;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+    .rating_wrap {
+        margin-top: 20px;
+        .form {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            input {
+                width: 50px;
+                height: 40px;
+                border: 1px solid $White;
+                text-align: center;
+                margin-right: 10px;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+            button {
+                padding: 10px 20px;
+                height: 40px;
+                color: white;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .btn_wrap {
+                display: flex;
+                gap: 4px;
+                .btn_submit {
+                    background-color: #007bff;
+                    border: 1px solid #007bff;
+                    &:hover {
+                        background-color: #0056b3;
+                    }
+                }
+                .btn_delete {
+                    background-color: #ff2a00;
+                    border: 1px solid #ff2a00;
+                    &:hover {
+                        background-color: #cb1100;
+                    }
+                }
+            }
+        }
+    }
+    .ratings_list {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+}
