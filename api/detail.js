@@ -1,7 +1,7 @@
 import { TryRequestGet, TryRequestPost, TryRequestDelete } from "@utils/TryRequest"
 
 // 영화 상세정보
-export const useMovieDetails = async (movie_id) => {
+export const fetchMovieDetails = async (movie_id) => {
     try {
         const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/${movie_id}?language=ko`)
         if (!response.ok) {
@@ -15,7 +15,7 @@ export const useMovieDetails = async (movie_id) => {
 }
 
 // 평점 추가
-export const useAddRating = async (movieId, rating) => {
+export const submitMovieRating = async (movieId, rating) => {
     try {
         const body = { value: rating };
         const url = `https://api.themoviedb.org/3/movie/${movieId}/rating`;
@@ -31,7 +31,7 @@ export const useAddRating = async (movieId, rating) => {
 }
 
 // 평가 확인
-export const useAccountMovie = async () => {
+export const fetchRatedMovies = async () => {
     try {
         const response = await TryRequestGet(`https://api.themoviedb.org/3/account/21584745/rated/movies?language=ko&page=1&sort_by=created_at.asc`)
         if (!response.ok) {
@@ -45,7 +45,7 @@ export const useAccountMovie = async () => {
 }
 
 // 평가 삭제
-export const useDeleteRating = async (movie_id) => {
+export const removeMovieRating = async (movie_id) => {
     try {
         const response = await TryRequestDelete(`https://api.themoviedb.org/3/movie/${movie_id}/rating`)
         if (!response.ok) {
@@ -59,7 +59,7 @@ export const useDeleteRating = async (movie_id) => {
 }
 
 // 즐겨 찾기 추가
-export const useAddFavorites = async (movieDetail) => {
+export const addMovieToFavorites = async (movieDetail) => {
     try {
         const requestBody = {
             media_type: 'movie',

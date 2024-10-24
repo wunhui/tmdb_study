@@ -1,6 +1,6 @@
 
-const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;  
-
+const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+console.log(token)
 export const TryRequestGet = async (url) => {
     try {
         const response = await fetch(url, {

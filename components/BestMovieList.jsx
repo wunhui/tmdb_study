@@ -1,17 +1,18 @@
 
 import { useRouter } from "next/router";
 import { useQuery } from '@tanstack/react-query';
-import { useBestMovieList } from '@api/main'
+import { fetchTopRatedMovies } from '@api/main'
 import useMovieStore from '@store/useMainStore';
 import { useState } from "react";
+import { QueryKeys } from "@constants/querys";
 
 const MovieList = () => {
     const router = useRouter();
     const { categoryId } = useMovieStore();
     const [page, setPage] = useState(2)
     const { data: movieListData } = useQuery({
-        queryKey: ['movies', page],
-        queryFn: ()  => useBestMovieList(page),
+        queryKey: [...QueryKeys.BEST_MOVIE_QUERY, page],
+        queryFn: ()  => fetchTopRatedMovies(page),
         keepPreviousData: true,
     }) 
     const handlePageCurrent = (value) => {

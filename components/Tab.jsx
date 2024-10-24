@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMovieCategory } from '@api/main'
+import { fetchMovieCategories } from '@api/main'
 import useMovieStore from '@store/useMainStore';
+import { QueryKeys } from '@constants/querys';
 
 const Tab = () => {
     const { setCategoryId } = useMovieStore();
     
     const { data: categoryData } = useQuery({
-        queryKey: ['categorys'],
-        queryFn: useMovieCategory
+        queryKey: [...QueryKeys.CATEGORY_ITEMS],
+        queryFn: fetchMovieCategories
     }) 
 
     return (

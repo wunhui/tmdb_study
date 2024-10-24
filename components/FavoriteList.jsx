@@ -1,19 +1,15 @@
 
 import { useRouter } from "next/router";
 import { useQuery } from '@tanstack/react-query';
-import { useFavoriteMoviesList } from '@api/main'
-import useMovieStore from '@store/useMainStore';
+import { fetchFavoriteMovies } from '@api/main'
 import { useEffect, useState } from "react";
+import { QueryKeys } from "@constants/querys";
 
 const FavoriteList = () => {
     const router = useRouter();
-    const { categoryId } = useMovieStore();
-    const [page, setPage] = useState(2)
-
     const { data: movieListData } = useQuery({
-        queryKey: ['favoriteMoviesList'],
-        queryFn: useFavoriteMoviesList,
-        keepPreviousData: true,
+        queryKey: [...QueryKeys.FAVORITE_MOVIE_QUERY],
+        queryFn: fetchFavoriteMovies
     }) 
 
     useEffect(() => {

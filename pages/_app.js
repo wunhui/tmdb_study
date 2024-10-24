@@ -1,4 +1,5 @@
-import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Hydrate, QueryClient, QueryClientProvider,  } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import "animate.css";
 import { useRouter } from "next/router";
 import React, { Suspense, useState } from "react";
@@ -17,12 +18,20 @@ import "../styles/global.scss";
  * @returns {JSX.Element} SiteApp 컴포넌트
  */
 function SiteApp({ Component, pageProps }) {
-	const [client] = useState(() => new QueryClient());
+	const [client] = useState(() => new QueryClient({
+		defaultOptions: {
+			queries: {
+				staleTime: 0,
+                cacheTime: 0
+			}
+		}
+	}));
 	const router = useRouter();
 
 	return (
 		<>
 			<QueryClientProvider client={client}>
+				<ReactQueryDevtools initialIsOpen={false} />
 				<Hydrate state={pageProps.dehydratedState}>
 					<CookiesProvider>
 						<Suspense fallback={<></>}>

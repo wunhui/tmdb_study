@@ -1,14 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { 
-        useMovieDetails,
-        useAddRating,
-        useDeleteRating, 
-        useAccountMovie,
-        useAddFavorites,
-        useFavoriteMoviesList } from '@api/detail';
+        fetchMovieDetails,
+        submitMovieRating,
+        removeMovieRating, 
+        fetchRatedMovies,
+        addMovieToFavorites } from '@api/detail';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { QueryKeys } from '@constants/querys';
 
 const MovieDetail = () => {
     const router = useRouter();
@@ -17,34 +17,51 @@ const MovieDetail = () => {
 
     // 영화 상세 정보
     const { data: movieDetail } = useQuery({
-        queryKey: ['movieDetail', id],
-        queryFn: () => useMovieDetails(id),
+        queryKey: [...QueryKeys.MOVIE_DETAIL_QUERY, id],
+        queryFn: () => fetchMovieDetails(id),
         enabled: !!id
     });
 
     const queryClient = useQueryClient();
 
     // 평점 목록
-    const { data: ratingList } = useQuery({
-        queryKey: ['ratingList'],
-        queryFn: useAccountMovie,
-    }) 
-    useEffect(() => {
 
-    }, [ratingList])
+    const { data: ratingList, isLoading, refetch } = useQuery({
+        queryKey: [...QueryKeys.RATING_LIST_QUERY],
+        queryFn: fetchRatedMovies,
+        select: (data) => data.find(item => item.id === Number(id)),
+    }) 
+
     // 평점 추가
     const mutationAdd = useMutation({
-        mutationFn: (newRating) => useAddRating(id, newRating),
-        onSuccess: () => {
-            // 딜레이 문제로 인해 성공시 재 호출
-            queryClient.invalidateQueries({queryKey: ['ratingList']});
-            alert(`평점: ${rating}점이 제출되었습니다.`)
+        mutationFn: (newRating) => submitMovieRating(id, newRating),
+        onMutate: (newRating) => {
+            // 미리 임의로 값을 보여주는 방법도 있다고해서... 사용해봤습니다... 
+            queryClient.setQueryData([...QueryKeys.RATING_LIST_QUERY], (oldData) => {
+                if (!oldData || oldData.length === 0) {
+                    return [{ id: Number(id), rating: Number(newRating) }];
+                }
+                
+                const exists = oldData.some(item => item.id === Number(id));
+                if (!exists) {
+                    return [...oldData, { id: Number(id), rating: Number(newRating) }];
+                }
+            
+                return oldData.map(item => 
+                    item.id === Number(id) ? { ...item, rating: Number(newRating) } : item
+                );
+            });
         },
         onError: (error) => {
             console.error('평점 제출 오류:', error);
         },
+        onSuccess: (success, data) => {
+            console.log(`평점 ${data}점 추가됐음!`)
+        }
     });
     
+    
+    // 평점 추가 이벤트
     const handleRatingSubmit = () => {
         if (rating > 0 && rating < 11) {
             mutationAdd.mutate(rating);
@@ -52,26 +69,32 @@ const MovieDetail = () => {
             alert(`평점을 다시 입력해 주세요.`);
         }
     };
-
+    
     // 평점 삭제
-    const mutaionDelete = useMutation({
-        mutationFn: useDeleteRating,
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['ratingList']});
-            alert(`평점이 삭제되었습니다.`)
+    const mutationDelete = useMutation({
+        mutationFn: removeMovieRating,
+        onMutate: () => {
+            queryClient.setQueryData([...QueryKeys.RATING_LIST_QUERY], (oldData) => {
+                const exists = oldData.filter(rating => rating.id !== Number(id))
+                return [...exists]
+            })
+        },
+        onSuccess: (success) => {
+            console.log('평점 삭제 됐음')
         },
         onError: (error) => {
             console.error('평점 삭제 오류:', error);
         },
     })
 
+    // 평점 삭제 이벤트
     const handleRatingDelete = () => {
-        mutaionDelete.mutate(id)
+        mutationDelete.mutate(id)
     }
 
     // 즐겨 찾기 추가
     const mutaionFavoriteAdd = useMutation({
-        mutationFn: useAddFavorites,
+        mutationFn: addMovieToFavorites,
         onSuccess: () => {
             alert('즐겨찾기에 추가되었습니다.');
         },
@@ -80,10 +103,9 @@ const MovieDetail = () => {
         },
     });
 
+    // 즐겨 찾기 추가 이벤트
     const handleFavoriteSubmit = () => {
-        if(movieDetail) {
-            mutaionFavoriteAdd.mutate(movieDetail)
-        }
+        mutaionFavoriteAdd.mutate(movieDetail)
     }
 
     return (
@@ -122,14 +144,13 @@ const MovieDetail = () => {
                 )}
             <div className="ratings_list">
                 <h3>내 평점</h3>
-                {
-                    ratingList ?
-                    ratingList.filter(item => item.id === Number(id)).map(item => (
-                        <span key={item.id}>
-                            {item.rating}점
-                        </span>
-                    )) : <span>평점이 없습니다.</span>
-                }
+                {isLoading ? (
+                    <span className="loading-text">평점 목록을 불러오는 중입니다...</span>
+                ) : (
+                    <span>
+                        {ratingList ? `${ratingList.rating}점` : '평점이 없습니다.'}
+                    </span>
+                )}
             </div>
         </div>
     );
