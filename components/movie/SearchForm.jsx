@@ -36,19 +36,19 @@ const SearchForm = () => {
     }, []);
 
     // 미적용
-    // useEffect(() => {
-    //     if (tvData) {
-    //         setSearchList(tvData);
-    //         localStorage.setItem("search_tv_data", JSON.stringify(tvData));
-    //     }
-    // }, [tvData]);
+    useEffect(() => {
+        if (tvData) {
+            setSearchList(tvData);
+            localStorage.setItem("search_tv_data", JSON.stringify(tvData));
+        }
+    }, [tvData]);
 
-    // useEffect(() => {
-    //     const storedData = localStorage.getItem("search_tv_data");
-    //     if (storedData) {
-    //         setSearchList(JSON.parse(storedData));
-    //     }
-    // }, []);
+    useEffect(() => {
+        const storedData = localStorage.getItem("search_tv_data");
+        if (storedData) {
+            setSearchList(JSON.parse(storedData));
+        }
+    }, []);
 
     return (
         <div className="search_form_wrap">

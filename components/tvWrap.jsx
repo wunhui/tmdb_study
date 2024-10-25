@@ -1,8 +1,8 @@
-import SearchForm from "@components/tv/SearchForm";
-import SearchList from "@components/tv/SearchList";
-import Tab from "@components/tv/Tab";
+// import SearchForm from "@components/tv/SearchForm";
+// import SearchList from "@components/tv/SearchList";
+// import Tab from "@components/tv/Tab";
+// import FavoriteList from "@components/tv/FavoriteList";
 import BestTvList from "@components/tv/BestTvList";
-import FavoriteList from "@components/tv/FavoriteList";
 import useMovieStore from '@store/useMainStore';
 
 const TvWrap = () => {
