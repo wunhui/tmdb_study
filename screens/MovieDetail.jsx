@@ -1,14 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { QueryKeys } from '@constants/querys';
 import { 
         fetchMovieDetails,
         submitMovieRating,
         removeMovieRating, 
         fetchRatedMovies,
-        addMovieToFavorites } from '@api/detail';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { QueryKeys } from '@constants/querys';
+        addMovieToFavorites } from '@api/movie/detail';
 
 const MovieDetail = () => {
     const router = useRouter();
@@ -17,7 +16,7 @@ const MovieDetail = () => {
 
     // 영화 상세 정보
     const { data: movieDetail } = useQuery({
-        queryKey: [...QueryKeys.MOVIE_DETAIL_QUERY, id],
+        queryKey: [...QueryKeys.DETAIL_MOVIE_QUERY, id],
         queryFn: () => fetchMovieDetails(id),
         enabled: !!id
     });

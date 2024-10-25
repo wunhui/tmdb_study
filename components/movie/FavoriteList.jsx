@@ -1,7 +1,7 @@
 
 import { useRouter } from "next/router";
 import { useQuery } from '@tanstack/react-query';
-import { fetchFavoriteMovies } from '@api/main'
+import { fetchFavoriteMovies } from '@api/movie/main'
 import { useEffect, useState } from "react";
 import { QueryKeys } from "@constants/querys";
 
