@@ -6,14 +6,9 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        gap: 8px;
         position: relative;
         height: 50px;
-        .search_label {
-          cursor: pointer;
-          font-size: 16px;
-          margin-left: 8px;
-          color: $White;
-        }
       
         .search_input {
            width: 200px;
@@ -22,6 +17,14 @@
            border: 1px solid #ccc;
            border-radius: 4px;
            color: $White;
+        }
+        .search_btn {
+            width: 50px;
+            height: 38px;
+            background-color: $White;
+            border-radius: 4px;
+            color: #1c2024;
+            font-weight: 500;
         }
     }
 }

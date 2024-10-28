@@ -12,9 +12,6 @@ const FavoriteList = () => {
         queryFn: fetchFavoriteMovies
     }) 
 
-    useEffect(() => {
-        console.log(movieListData)
-    })
     
     return (
         <div className="favorite_movie_wrap">

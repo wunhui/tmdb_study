@@ -1,21 +1,19 @@
 import useMovieStore from '@store/useMainStore';
-import Link from 'next/link';
-import { useEffect } from 'react';
-
+import { useRouter } from 'next/router';
 const SearchList = () => {
-    const { searchList, setSearchList } = useMovieStore();
-
-    useEffect(() => {
-        const storedData = localStorage.getItem("search_movie_data");
-        if (storedData) {
-            setSearchList(JSON.parse(storedData));
-        }
-    }, []);
-
+    const { pushSearchValue, searchList } = useMovieStore();
+    const router = useRouter();
     return (
         <div className='search_wrap'>
             <div className="top">
-                <Link href="/search">전체보기</Link>
+                <button 
+                    type="button"
+                    onClick={() =>
+                        router.push({
+                            pathname: "/search",
+                            query: { pushSearchValue: pushSearchValue },
+                        })}>전체보기
+                </button>
             </div>
             <ul className='content'>
                 {

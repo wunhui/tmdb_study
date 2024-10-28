@@ -24,8 +24,7 @@ const MovieDetail = () => {
     const queryClient = useQueryClient();
 
     // 평점 목록
-
-    const { data: ratingList, isLoading, refetch } = useQuery({
+    const { data: ratingList, isFetching } = useQuery({
         queryKey: [...QueryKeys.RATING_LIST_QUERY],
         queryFn: fetchRatedMovies,
         select: (data) => data.find(item => item.id === Number(id)),
@@ -34,29 +33,33 @@ const MovieDetail = () => {
     // 평점 추가
     const mutationAdd = useMutation({
         mutationFn: (newRating) => submitMovieRating(id, newRating),
-        onMutate: (newRating) => {
-            // 미리 임의로 값을 보여주는 방법도 있다고해서... 사용해봤습니다... 
-            queryClient.setQueryData([...QueryKeys.RATING_LIST_QUERY], (oldData) => {
-                if (!oldData || oldData.length === 0) {
-                    return [{ id: Number(id), rating: Number(newRating) }];
-                }
+        onMutate: async (newRating) => {
+
+            const previousRatings = queryClient.getQueryData(QueryKeys.RATING_LIST_QUERY);
+    
+            queryClient.setQueryData(QueryKeys.RATING_LIST_QUERY, (oldData) => {
+                if (!oldData) return [{ id: Number(id), rating: Number(newRating) }];
                 
                 const exists = oldData.some(item => item.id === Number(id));
-                if (!exists) {
-                    return [...oldData, { id: Number(id), rating: Number(newRating) }];
-                }
-            
-                return oldData.map(item => 
-                    item.id === Number(id) ? { ...item, rating: Number(newRating) } : item
-                );
+                return exists
+                    ? oldData.map(rating => 
+                        rating.id === Number(id) 
+                        ? { ...rating, rating: Number(newRating) } 
+                        : rating
+                      )
+                    : [...oldData, { id: Number(id), rating: Number(newRating) }];
             });
+    
+            return { previousRatings };
         },
-        onError: (error) => {
-            console.error('평점 제출 오류:', error);
+        onSettled: () => queryClient.invalidateQueries(QueryKeys.RATING_LIST_QUERY),
+        onError: (error, _, context) => {
+            console.error('평점 추가 오류:', error);
+            if (context?.previousRatings) {
+                // 이전 데이터 값이 있으면 데이터 값 추가
+                queryClient.setQueryData(QueryKeys.RATING_LIST_QUERY, context.previousRatings);
+            }
         },
-        onSuccess: (success, data) => {
-            console.log(`평점 ${data}점 추가됐음!`)
-        }
     });
     
     
@@ -72,26 +75,30 @@ const MovieDetail = () => {
     // 평점 삭제
     const mutationDelete = useMutation({
         mutationFn: removeMovieRating,
-        onMutate: () => {
-            queryClient.setQueryData([...QueryKeys.RATING_LIST_QUERY], (oldData) => {
-                const exists = oldData.filter(rating => rating.id !== Number(id))
-                return [...exists]
-            })
+        onMutate: async () => {
+            const previousRatings = queryClient.getQueryData(QueryKeys.RATING_LIST_QUERY);
+            
+            queryClient.setQueryData(QueryKeys.RATING_LIST_QUERY, (oldData) => 
+                oldData ? oldData.filter(rating => rating.id !== Number(id)) : []
+            );
+    
+            return { previousRatings };
         },
-        onSuccess: (success) => {
-            console.log('평점 삭제 됐음')
-        },
-        onError: (error) => {
+        onSettled: () => queryClient.invalidateQueries(QueryKeys.RATING_LIST_QUERY),
+        onError: (error, _, context) => {
             console.error('평점 삭제 오류:', error);
+            if (context?.previousRatings) {
+                queryClient.setQueryData(QueryKeys.RATING_LIST_QUERY, context.previousRatings);
+            }
         },
-    })
+    });
 
     // 평점 삭제 이벤트
     const handleRatingDelete = () => {
-        mutationDelete.mutate(id)
+        mutationDelete.mutate(id);
     }
 
-    // 즐겨 찾기 추가
+    // // 즐겨 찾기 추가
     const mutaionFavoriteAdd = useMutation({
         mutationFn: addMovieToFavorites,
         onSuccess: () => {
@@ -102,9 +109,9 @@ const MovieDetail = () => {
         },
     });
 
-    // 즐겨 찾기 추가 이벤트
+    // // 즐겨 찾기 추가 이벤트
     const handleFavoriteSubmit = () => {
-        mutaionFavoriteAdd.mutate(movieDetail)
+    //     mutaionFavoriteAdd.mutate(movieDetail)
     }
 
     return (
@@ -143,13 +150,17 @@ const MovieDetail = () => {
                 )}
             <div className="ratings_list">
                 <h3>내 평점</h3>
-                {isLoading ? (
-                    <span className="loading-text">평점 목록을 불러오는 중입니다...</span>
-                ) : (
-                    <span>
+                {
+                // mutaion은 isLoading만 있던 데 mutaion.isLoading 을 사용해줘야하나요? 
+                // 아니면 query의 isFetching을 사용해줘야하나요?
+                // isLoading이 서치 했을 때는 처음 데이터를 불러올 때 사용해줘야한다고 하는 데
+                // 혹시 다른 경우에도 사용이 할 때가 있을 수 있을 거 같아 여쭤봅니다!
+                    isFetching 
+                    ? <span className="loading-text">데이터를 갱신 중입니다...</span>
+                    : <span>
                         {ratingList ? `${ratingList.rating}점` : '평점이 없습니다.'}
-                    </span>
-                )}
+                      </span>
+                }
             </div>
         </div>
     );

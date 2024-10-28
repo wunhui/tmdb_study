@@ -1,17 +1,20 @@
 import useMovieStore from '@store/useMainStore';
+import { feachSearcher } from "@api/movie/search";
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { QueryKeys } from '@constants/querys';
 const SearchWrap = () => {
     const router = useRouter();
-    const { searchList, setSearchList } = useMovieStore();
-
+    const { pushSearchValue } = router.query;
+    const { data: movieData } = useQuery({
+        queryKey: [...QueryKeys.SEARCH_MOVIE_QUERY, pushSearchValue],
+        queryFn: () => feachSearcher(pushSearchValue),
+        enabled: !!pushSearchValue,
+    });
     useEffect(() => {
-        const storedData = localStorage.getItem("search_movie_data");
-        if (storedData) {
-            setSearchList(JSON.parse(storedData));
-        }
-    }, []);
 
+    }, [router.query, movieData]);
     return (
         <div className="search_movie_wrap">
             <button 
@@ -28,8 +31,8 @@ const SearchWrap = () => {
             </div>
             <ul>
                 {   
-                    searchList &&
-                    searchList.map(movie => (
+                    movieData &&
+                    movieData.map(movie => (
                     <li className="movie_card" key={movie.id}>
                         <button 				
                             onClick={() =>

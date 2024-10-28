@@ -6,13 +6,13 @@ import FavoriteList from "@components/movie/FavoriteList";
 import useMovieStore from '@store/useMainStore';
 
 const MovieWrap = () => {
-    const { searchValue } = useMovieStore()
+    const { searchList } = useMovieStore()
     return (
         <>
             <SearchForm />
             {
-                searchValue &&
-                searchValue.length > 0 &&
+                searchList &&
+                searchList.length > 0 &&
                 <SearchList />
             }
             <Tab />

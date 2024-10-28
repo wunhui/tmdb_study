@@ -15,7 +15,6 @@ const MovieList = () => {
         queryFn: ()  => fetchTopRatedTivs(page),
         keepPreviousData: true,
     }) 
-    console.log(tvListData)
     const handlePageCurrent = (value) => {
         setPage((prevPage) => {
             const newPage = prevPage + value;
