@@ -9,7 +9,8 @@ const FavoriteList = () => {
     const router = useRouter();
     const { data: movieListData } = useQuery({
         queryKey: [...QueryKeys.FAVORITE_MOVIE_QUERY],
-        queryFn: fetchFavoriteMovies
+        queryFn: fetchFavoriteMovies,
+        
     }) 
 
     
@@ -26,7 +27,7 @@ const FavoriteList = () => {
                                 <button 				
                                     onClick={() =>
                                         router.push({
-                                            pathname: "/details",
+                                            pathname: "/movieDetails",
                                             query: {
                                                 id: movie.id,
                                             },
@@ -34,7 +35,7 @@ const FavoriteList = () => {
                                     }>
                                     <img
                                         className="movie_backdrop"
-                                        src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                         alt={movie.original_title}
                                     />
                                 </button>

@@ -3,7 +3,7 @@ import { TryRequestGet } from "@utils/TryRequest"
 // 영화 카테고리 목록
 export const fetchMovieCategories = async () => {
     try {
-        const response = await TryRequestGet('https://api.themoviedb.org/3/genre/movie/list?language=ko')
+        const response = await TryRequestGet('https://api.themoviedb.org/3/genre/movie/list?language=ko-KR')
         const data = await response.json();
     return data.genres; 
     } catch (err) {
@@ -14,7 +14,7 @@ export const fetchMovieCategories = async () => {
 // 베스트 영화 리스트
 export const fetchTopRatedMovies = async (page) => {
     try {
-        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/top_rated?language=ko&page=${page}`)
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=${page}`)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -28,7 +28,7 @@ export const fetchTopRatedMovies = async (page) => {
 // 즐겨찾기 리스트
 export const fetchFavoriteMovies = async () => {
     try {
-        const response = await TryRequestGet(`https://api.themoviedb.org/3/account/21584745/favorite/movies?language=ko&page=1&sort_by=created_at.asc`);
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/account/21584745/favorite/movies?language=ko-KR&page=1&sort_by=created_at.asc`);
         if(!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

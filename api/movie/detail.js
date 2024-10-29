@@ -3,7 +3,7 @@ import { TryRequestGet, TryRequestPost, TryRequestDelete } from "@utils/TryReque
 // 영화 상세정보
 export const fetchMovieDetails = async (movie_id) => {
     try {
-        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/${movie_id}?language=ko`)
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/${movie_id}?language=ko-KR`)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -33,7 +33,7 @@ export const submitMovieRating = async (movieId, rating) => {
 // 평가 확인
 export const fetchRatedMovies = async () => {
     try {
-        const response = await TryRequestGet(`https://api.themoviedb.org/3/account/21584745/rated/movies?language=ko&page=1&sort_by=created_at.asc`)
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/account/21584745/rated/movies?language=ko-KR&page=1&sort_by=created_at.asc`)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

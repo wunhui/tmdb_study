@@ -1,8 +1,8 @@
-// import SearchForm from "@components/tv/SearchForm";
-// import SearchList from "@components/tv/SearchList";
-// import Tab from "@components/tv/Tab";
-// import FavoriteList from "@components/tv/FavoriteList";
-import BestTvList from "@components/tv/BestTvList";
+// import SearchForm from "@screens/SearchForm";
+// import SearchList from "@screens/SearchList";
+// import Tab from "@screens/Tab";
+import FavoriteList from "@screens/main/components/tv/FavoriteList";
+import BestTvList from "@screens/main/components/tv/BestTvList";
 import useMovieStore from '@store/useMainStore';
 
 const TvWrap = () => {
@@ -17,7 +17,7 @@ const TvWrap = () => {
             }
             <Tab /> */}
             <BestTvList />
-            {/* <FavoriteList /> */}
+            <FavoriteList />
         </>
     )
 }

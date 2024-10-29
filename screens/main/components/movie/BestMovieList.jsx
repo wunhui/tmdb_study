@@ -13,6 +13,7 @@ const MovieList = () => {
     const { data: movieListData } = useQuery({
         queryKey: [...QueryKeys.BEST_MOVIE_QUERY, page],
         queryFn: ()  => fetchTopRatedMovies(page),
+        enabled: !!page,
         keepPreviousData: true,
     }) 
     const handlePageCurrent = (value) => {
@@ -43,7 +44,7 @@ const MovieList = () => {
                         <button 				
                             onClick={() =>
                                 router.push({
-                                    pathname: "/details",
+                                    pathname: "/movieDetails",
                                     query: {
                                         id: movie.id,
                                     },
@@ -51,7 +52,7 @@ const MovieList = () => {
                             }>
                             <img
                                 className="movie_backdrop"
-                                src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                 alt={movie.original_title}
                             />
                         </button>

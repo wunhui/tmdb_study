@@ -1,20 +1,46 @@
 import useMovieStore from '@store/useMainStore';
-import { feachSearcher } from "@api/movie/search";
+import { feachMovieSearcher } from "@api/movie/search";
+import { feachTvSearcher } from '@api/tv/search';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { QueryKeys } from '@constants/querys';
 const SearchWrap = () => {
     const router = useRouter();
+    const [data, setData] = useState([])
     const { pushSearchValue } = router.query;
     const { data: movieData } = useQuery({
         queryKey: [...QueryKeys.SEARCH_MOVIE_QUERY, pushSearchValue],
-        queryFn: () => feachSearcher(pushSearchValue),
+        queryFn: () => feachMovieSearcher(pushSearchValue),
+        enabled: !!pushSearchValue,
+    });
+    const { data: tvData } = useQuery({
+        queryKey: [...QueryKeys.SEARCH_TV_QUERY, pushSearchValue],
+        queryFn: () => feachTvSearcher(pushSearchValue),
         enabled: !!pushSearchValue,
     });
     useEffect(() => {
+        if(movieData || tvData) {
+            console.log('movieData:', movieData)
+            console.log('tvData:', tvData)
+            const movieItems = (movieData || []).map(movie => ({ ...movie, type: 'movie' }))
+            const tvItems = (tvData || []).map(tv => ({ ...tv, type: 'tv' }))
+            const data = movieItems?.concat(tvItems).sort((a, b) => {
+                return b.vote_count - a.vote_count
+            })
+            console.log('mix data :', data)
+            setData(data)
+        }
+    }, [movieData, tvData])
 
-    }, [router.query, movieData]);
+    useEffect(() => {
+
+    }, [router.query]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const handlePageCurrent = (direction) => {
+        setCurrentPage(prev => prev + direction);
+    };
     return (
         <div className="search_movie_wrap">
             <button 
@@ -31,13 +57,15 @@ const SearchWrap = () => {
             </div>
             <ul>
                 {   
-                    movieData &&
-                    movieData.map(movie => (
+                    data &&
+                    data.filter(item => item.backdrop_path).map(movie => (
                     <li className="movie_card" key={movie.id}>
                         <button 				
                             onClick={() =>
                                 router.push({
-                                    pathname: "/details",
+                                    pathname: movie.type === 'movie' ?
+                                                "/movieDetails" :
+                                                "/tvDetails",
                                     query: { id: movie.id },
                                 })
                             }>

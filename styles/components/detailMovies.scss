@@ -1,7 +1,7 @@
 .movie_detail_wrap {
     position: relative;
     padding: 40px 20px 20px;
-    text-align: center;
+    text-align: left;
     color: $White;
     .btn_back {
         position: absolute;
@@ -9,36 +9,72 @@
         left: 20px;
         font-size: 24px;
     }
-    .movie_detail_backdrop {
-        width: 100%;
-        border-radius: 8px;
+    .top{
+        .img_wrap {
+            position: relative;
+            .movie_detail_backdrop {
+                width: 100%;
+                border-radius: 8px;
+            }
+            .btn_favorites {
+                position: absolute;
+                right: 15px;
+                bottom: 15px;
+                font-size: 28px;
+                color: red;
+            }
+        }
+        h2 {
+            margin: 12px 0 8px 0;
+            font-size: 32px;
+            color: #fefefe;
+        }
+        .label_wrap {
+            display: flex;
+            gap: 4px;
+            .label {
+                display: inline-block;
+                background-color: #4f4e4e;
+                padding: 2px 4px;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+        }
+        .desc {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #eee;
+        }
+        .date {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #eee;
+            span { font-weight: 500; }
+        }
     }
 
-    h2 {
-        margin-top: 20px;
-        font-size: 24px;
-    }
-
-    p {
-        margin-top: 10px;
-        font-size: 16px;
-    }
 
     .rating_wrap {
         margin-top: 20px;
+        p {
+            font: {
+                size: 18px;
+                weight: 700;
+            }
+        }
         .form {
             margin-top: 12px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             input {
-                width: 50px;
+                width: 60px;
                 height: 40px;
-                border: 1px solid $White;
                 text-align: center;
+                padding: 4px 8px;
                 margin-right: 10px;
-                font-size: 16px;
-                border-radius: 5px;
+                font-size: 20px;
+                border-bottom: 1px solid #ccc;
             }
             button {
                 padding: 10px 20px;
@@ -51,19 +87,10 @@
             .btn_wrap {
                 display: flex;
                 gap: 4px;
-                .btn_submit {
-                    background-color: #007bff;
-                    border: 1px solid #007bff;
-                    &:hover {
-                        background-color: #0056b3;
-                    }
-                }
-                .btn_delete {
-                    background-color: #ff2a00;
-                    border: 1px solid #ff2a00;
-                    &:hover {
-                        background-color: #cb1100;
-                    }
+                [class^="btn_"] {
+                    border-radius: 5px;
+                    background-color: #333;
+                    font-size: 16px;
                 }
             }
         }
@@ -72,7 +99,19 @@
         margin-top: 20px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 12px;
+        p {
+            font: {
+                size: 18px;
+                weight: 700;
+            }
+        }
+        span {
+            font: {
+                size: 16px;
+                weight: 500;
+            }
+        }
     }
 }

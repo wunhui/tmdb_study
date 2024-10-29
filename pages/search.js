@@ -1,3 +1,3 @@
-import Search from "@screens/Search";
+import Search from "@screens/search/Search";
 
 export default Search;

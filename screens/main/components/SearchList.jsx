@@ -18,16 +18,17 @@ const SearchList = () => {
             <ul className='content'>
                 {
                     searchList.length > 0 ?
-                    searchList.map((item, idx) => (
+                    searchList.filter(item => item.title)?.map((item, idx) => (
                         <li className='search_list' key={idx}>
                             <button onClick={() =>
                                 router.push({
-                                    pathname: "/details",
+                                    pathname: item.type === 'movie' ?
+                                    "/movieDetails" :
+                                    "/tvDetails",
                                     query: { id: item.id },
                                 })
                             }>
                                 <p>{item.title}</p>
-                                <span>{item.overview}</span>
                             </button>
                         </li>
                     )) :

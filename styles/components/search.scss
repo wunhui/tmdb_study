@@ -14,16 +14,17 @@
            width: 200px;
            height: 38px;
            padding: 8px;
-           border: 1px solid #ccc;
-           border-radius: 4px;
+           border-bottom: 1px solid #ccc;
            color: $White;
         }
         .search_btn {
-            width: 50px;
             height: 38px;
-            background-color: $White;
             border-radius: 4px;
-            color: #1c2024;
+            font: {
+                size: 36px;
+                weight: 100;
+            }
+            color: $White;
             font-weight: 500;
         }
     }
@@ -40,7 +41,7 @@
     color: $White;
     border-radius: 4px;
     overflow-y: auto;
-    width: 258px;
+    width: 230px;
     max-height: 200px;
     z-index: 100;
     .top {

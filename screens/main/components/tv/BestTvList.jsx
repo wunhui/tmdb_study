@@ -13,6 +13,7 @@ const MovieList = () => {
     const { data: tvListData } = useQuery({
         queryKey: [...QueryKeys.BEST_TV_QUERY, page],
         queryFn: ()  => fetchTopRatedTivs(page),
+        enabled: !!page,
         keepPreviousData: true,
     }) 
     const handlePageCurrent = (value) => {
@@ -38,21 +39,21 @@ const MovieList = () => {
             <ul>
                 {   
                     tvListData &&
-                    tvListData.map(movie => (
-                    <li className="movie_card" key={movie.id}>
+                    tvListData.map(tv => (
+                    <li className="movie_card" key={tv.id}>
                         <button 				
                             onClick={() =>
                                 router.push({
-                                    pathname: "/details",
+                                    pathname: "/tvDetails",
                                     query: {
-                                        id: movie.id,
+                                        id: tv.id,
                                     },
                                 })
                             }>
                             <img
                                 className="movie_backdrop"
-                                src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                                alt={movie.original_title}
+                                src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
+                                alt={tv.original_title}
                             />
                         </button>
                     </li>

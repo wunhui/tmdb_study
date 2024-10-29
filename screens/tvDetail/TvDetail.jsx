@@ -3,11 +3,13 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { QueryKeys } from '@constants/querys';
 import { 
-        fetchMovieDetails,
-        submitMovieRating,
-        removeMovieRating, 
-        fetchRatedMovies,
-        addMovieToFavorites } from '@api/movie/detail';
+        fetchTvDetails, 
+        submitTvRating,
+        removeTvRating,
+        fetchRatedTvs,
+        addTvToFavorites
+        } from '@api/tv/detail';
+import { fetchFavoriteTvs } from '@api/tv/main';
 
 const MovieDetail = () => {
     const router = useRouter();
@@ -15,24 +17,24 @@ const MovieDetail = () => {
     const [rating, setRating] = useState(0);  // 평점 상태
 
     // 영화 상세 정보
-    const { data: movieDetail } = useQuery({
-        queryKey: [...QueryKeys.DETAIL_MOVIE_QUERY, id],
-        queryFn: () => fetchMovieDetails(id),
+    const { data: tvDetail } = useQuery({
+        queryKey: [...QueryKeys.DETAIL_TV_QUERY, id],
+        queryFn: () => fetchTvDetails(id),
         enabled: !!id
     });
-
+    
     const queryClient = useQueryClient();
 
     // 평점 목록
-    const { data: ratingList, isFetching } = useQuery({
-        queryKey: [...QueryKeys.RATING_LIST_QUERY],
-        queryFn: fetchRatedMovies,
+    const { data: ratingList, isFetching, refetch } = useQuery({
+        queryKey: [...QueryKeys.TV_RATING_LIST_QUERY],
+        queryFn: fetchRatedTvs,
         select: (data) => data.find(item => item.id === Number(id)),
     }) 
 
     // 평점 추가
     const mutationAdd = useMutation({
-        mutationFn: (newRating) => submitMovieRating(id, newRating),
+        mutationFn: (newRating) => submitTvRating(id, newRating),
         onMutate: async (newRating) => {
 
             const previousRatings = queryClient.getQueryData(QueryKeys.RATING_LIST_QUERY);
@@ -56,7 +58,6 @@ const MovieDetail = () => {
         onError: (error, _, context) => {
             console.error('평점 추가 오류:', error);
             if (context?.previousRatings) {
-                // 이전 데이터 값이 있으면 데이터 값 추가
                 queryClient.setQueryData(QueryKeys.RATING_LIST_QUERY, context.previousRatings);
             }
         },
@@ -70,11 +71,12 @@ const MovieDetail = () => {
         } else {
             alert(`평점을 다시 입력해 주세요.`);
         }
+        refetch()
     };
     
     // 평점 삭제
     const mutationDelete = useMutation({
-        mutationFn: removeMovieRating,
+        mutationFn: removeTvRating,
         onMutate: async () => {
             const previousRatings = queryClient.getQueryData(QueryKeys.RATING_LIST_QUERY);
             
@@ -96,11 +98,12 @@ const MovieDetail = () => {
     // 평점 삭제 이벤트
     const handleRatingDelete = () => {
         mutationDelete.mutate(id);
+        refetch()
     }
 
     // // 즐겨 찾기 추가
     const mutaionFavoriteAdd = useMutation({
-        mutationFn: addMovieToFavorites,
+        mutationFn: addTvToFavorites,
         onSuccess: () => {
             alert('즐겨찾기에 추가되었습니다.');
         },
@@ -111,23 +114,51 @@ const MovieDetail = () => {
 
     // // 즐겨 찾기 추가 이벤트
     const handleFavoriteSubmit = () => {
-    //     mutaionFavoriteAdd.mutate(movieDetail)
+        mutaionFavoriteAdd.mutate(tvDetail)
     }
 
+    const { data: tvListData } = useQuery({
+        queryKey: [...QueryKeys.FAVORITE_TV_QUERY],
+        queryFn: fetchFavoriteTvs,
+        select: (data) => data.filter(item => item.id === Number(id))
+    }) 
+    console.log(tvListData)
     return (
         <div className="movie_detail_wrap">
             <button 
                 className='btn_back'
                 onClick={() => router.back()}>{`<`}</button>
-                {movieDetail && (
+                {tvDetail && (
                     <>
-                        <img
-                            className="movie_detail_backdrop"
-                            src={`https://image.tmdb.org/t/p/w500${movieDetail.backdrop_path}`}
-                            alt={movieDetail.title}
-                        />
-                        <h2>{movieDetail.title}</h2>
-                        <p>{movieDetail.overview}</p>
+                        <div className="top">
+                            <div className="img_wrap">
+                                <img
+                                    className="movie_detail_backdrop"
+                                    src={`https://image.tmdb.org/t/p/w500${tvDetail.backdrop_path}`}
+                                    alt={tvDetail.name}
+                                />
+                                <button onClick={handleFavoriteSubmit} className='btn_favorites'>
+                                    {
+                                        tvListData && tvListData.length > 0 ? `♥` : `♡`
+                                    }
+                                </button>
+                            </div>
+                            <h2>{tvDetail.name}</h2>
+                            <div className="label_wrap">
+                                {
+                                    tvDetail.genres.length > 0 &&
+                                    tvDetail.genres.map((item) => {
+                                        return (
+                                            <span key={item.id} className='label'>{item.name}</span>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <p className='desc'>{tvDetail.overview}</p>
+                            <p className='date'><span>출시일 : </span>{tvDetail.first_air_date}</p>
+                            <p className='date'><span>총 에피소드 : </span>{tvDetail.number_of_episodes}회</p>
+                            <p className='date'><span>총 시즌 : </span>{tvDetail.number_of_seasons}시즌</p>
+                        </div>
                         
                         <div className="rating_wrap">
                             <h3>평점 남기기</h3>
@@ -140,9 +171,8 @@ const MovieDetail = () => {
                                     max="10"
                                 />
                                 <div className="btn_wrap">
-                                    <button onClick={handleRatingSubmit} className='btn_submit'>평점 제출</button>
-                                    <button onClick={handleRatingDelete} className='btn_delete'>평점 삭제</button>
-                                    <button onClick={handleFavoriteSubmit} className='btn_delete'>즐겨찾기</button>
+                                    <button onClick={handleRatingSubmit} className='btn_submit'>제출</button>
+                                    <button onClick={handleRatingDelete} className='btn_delete'>삭제</button>
                                 </div>
                             </div>
                         </div>
@@ -151,10 +181,6 @@ const MovieDetail = () => {
             <div className="ratings_list">
                 <h3>내 평점</h3>
                 {
-                // mutaion은 isLoading만 있던 데 mutaion.isLoading 을 사용해줘야하나요? 
-                // 아니면 query의 isFetching을 사용해줘야하나요?
-                // isLoading이 서치 했을 때는 처음 데이터를 불러올 때 사용해줘야한다고 하는 데
-                // 혹시 다른 경우에도 사용이 할 때가 있을 수 있을 거 같아 여쭤봅니다!
                     isFetching 
                     ? <span className="loading-text">데이터를 갱신 중입니다...</span>
                     : <span>

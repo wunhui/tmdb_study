@@ -1,7 +1,8 @@
 import { TryRequestGet } from "@utils/TryRequest";
+
 export const feachTvSearcher = async (searchQuery, page) => {
     try {
-        const response = await TryRequestGet(`https://api.themoviedb.org/3/search/tv?query=${searchQuery}&include_adult=false&language=en-US&page=1`)
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/search/tv?query=${searchQuery}&include_adult=false&language=ko-KR&page=1`)
         if(!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
