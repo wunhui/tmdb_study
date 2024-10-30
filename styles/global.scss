@@ -6,7 +6,13 @@
 
 // tab
 @import 'components/tab';
-@import 'components/bestMovies';
-@import 'components/detailMovies';
-@import 'components/favoriteMovies';
-@import 'components/search';
+
+// main
+@import 'components/bestCard';
+@import 'components/favoriteCard';
+
+// datails
+@import 'components/detail';
+
+// search
+@import 'search/search';

@@ -22,8 +22,6 @@ const MovieDetail = () => {
         enabled: !!id
     });
 
-    console.log(movieDetail)
-
     // 평점 목록
     const { data: ratingList, isFetching } = useQuery({
         queryKey: [...QueryKeys.RATING_LIST_QUERY],
@@ -190,10 +188,6 @@ const MovieDetail = () => {
             <div className="ratings_list">
                 <p>내 평점</p>
                 {
-                // mutaion은 isLoading만 있던 데 mutaion.isLoading 을 사용해줘야하나요? 
-                // 아니면 query의 isFetching을 사용해줘야하나요?
-                // isLoading이 서치 했을 때는 처음 데이터를 불러올 때 사용해줘야한다고 하는 데
-                // 혹시 다른 경우에도 사용이 할 때가 있을 수 있을 거 같아 여쭤봅니다!
                     isFetching 
                     ? <span className="loading-text">데이터를 갱신 중입니다...</span>
                     : <span>

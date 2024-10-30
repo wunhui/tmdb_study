@@ -4,7 +4,7 @@ const SearchList = () => {
     const { pushSearchValue, searchList } = useMovieStore();
     const router = useRouter();
     return (
-        <div className='search_wrap'>
+        <div className='search_list_wrap'>
             <div className="top">
                 <button 
                     type="button"

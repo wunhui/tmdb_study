@@ -28,7 +28,7 @@ const MovieList = () => {
         }
     }
     return (
-        <div className="best_movie_wrap">
+        <div className="best_card_wrap">
             <div className="top">
                 <h2>최고의 티비 프로그램</h2>
                 <div className="btn_wrap">
@@ -36,11 +36,11 @@ const MovieList = () => {
                     <button onClick={() => handlePageCurrent(1)}>{`>`}</button>
                 </div>
             </div>
-            <ul>
+            <ul className="card_wrap">
                 {   
                     tvListData &&
                     tvListData.map(tv => (
-                    <li className="movie_card" key={tv.id}>
+                    <li className="card_list" key={tv.id}>
                         <button 				
                             onClick={() =>
                                 router.push({
@@ -51,7 +51,7 @@ const MovieList = () => {
                                 })
                             }>
                             <img
-                                className="movie_backdrop"
+                                className="backdrop"
                                 src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
                                 alt={tv.original_title}
                             />

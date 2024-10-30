@@ -6,7 +6,7 @@ import { feachTvSearcher } from "@api/tv/search";
 import useMovieStore from '@store/useMainStore';
 
 const SearchForm = () => {
-    const { pushSearchValue, setPushSearchValue, searchList, setSearchList } = useMovieStore();
+    const { pushSearchValue, setPushSearchValue, searchValue, setSearchValue, setSearchList } = useMovieStore();
     const { data: movieData } = useQuery({
         queryKey: [...QueryKeys.SEARCH_MOVIE_QUERY, pushSearchValue],
         queryFn: () => feachMovieSearcher(pushSearchValue),
@@ -18,7 +18,6 @@ const SearchForm = () => {
         queryFn: () => feachTvSearcher(pushSearchValue),
         enabled: !!pushSearchValue
     });
-    const [searchValue, setSearchValue] = useState('')
 
     useEffect(() => {
         if(movieData || tvData) {
@@ -30,15 +29,20 @@ const SearchForm = () => {
             setSearchList(data)
         }
     }, [movieData, tvData])
-    useEffect(() => {
 
-    }, [searchList])
+
 
     const handleSearchClick = () => {
         if (pushSearchValue !== searchValue) {
             setPushSearchValue(searchValue);
         }
     };
+
+    useEffect(() => {
+        if(searchValue === '') {
+            setSearchList([])
+        }
+    }, [searchValue])
     return (
         <div className="search_form_wrap">
             <div className="search_form">

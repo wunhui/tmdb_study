@@ -15,15 +15,15 @@ const FavoriteList = () => {
 
     
     return (
-        <div className="favorite_movie_wrap">
+        <div className="favorite_card_wrap">
             <div className="top">
                 <h2>즐겨찾기 영화</h2>
             </div>
-            <ul>
+            <ul className="card_wrap">
                 {   
                     movieListData ? (
                         movieListData.map(movie => (
-                            <li className="movie_card" key={movie.id}>
+                            <li className="card_list" key={movie.id}>
                                 <button 				
                                     onClick={() =>
                                         router.push({
@@ -34,7 +34,7 @@ const FavoriteList = () => {
                                         })
                                     }>
                                     <img
-                                        className="movie_backdrop"
+                                        className="backdrop"
                                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                         alt={movie.original_title}
                                     />

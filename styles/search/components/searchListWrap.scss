@@ -1,0 +1,59 @@
+.search_list_wrap {
+    position: absolute;
+    top: 75px;
+    right: 20px;
+    width: 100%;
+    background-color: #1c2024;
+    border:1px solid #ccc;
+    padding: 8px 4px;
+    color: $White;
+    border-radius: 4px;
+    overflow-y: auto;
+    width: 230px;
+    max-height: 200px;
+    z-index: 100;
+    .top {
+        padding: 4px 10px 8px;
+        border-bottom: 1px solid #ccc;
+        a {
+            display: inline-block;
+            width: 100%;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+    .title {
+        font-size: 16px;
+        color: $White;
+        margin: 8px 0;
+    }
+    .content {
+        .search_list {
+            button {
+                display: block;
+                width: 100%;
+                padding: 8px 16px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                word-break: break-all;
+                &:hover {
+                    background-color: #212529;
+                }
+                p, span {
+                    display: block;
+                    text-align: left;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: $White;
+                }
+            }
+        }
+        .emtpy_text {
+            width: 100%;
+            font-size: 14px;
+            text-align: center;
+        }
+    }
+}

@@ -1,8 +1,18 @@
-.best_movie_wrap {
+@import './components/searchForm';
+@import './components/searchListWrap';
+
+.search_detail {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 20px 0;
+    padding: 60px 20px;
+    .btn_back {
+        position: absolute;
+        top: 15px;
+        left: 20px;
+        font-size: 24px;
+        color: $White;
+    }
     .top{
         display: flex;
         justify-content: space-between;
@@ -20,11 +30,19 @@
             color: $White;
         }
     }
-    ul {
+    .card_title {
+        font: {
+            size: 32px;
+            weight: bold;
+        }
+        color: $White;
+    }
+
+    .card {
         display: flex;
         flex-wrap: wrap;
         gap: 20px 10px;
-        .movie_card {
+        .card_list {
             flex: 0 1 calc((100% / 5) - 10px);
             @include medium {
                 flex: 0 1 calc((100% / 4) - 10px);
