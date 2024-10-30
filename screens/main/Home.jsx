@@ -12,6 +12,7 @@ const HomeScreen = () => {
 		console.log(searchList)
 	}, [searchList])
 	return (
+		// 커밋테스트
 		/*
 			첫번째 질문 2024.10.28
 			MovieDetail.jsx 
