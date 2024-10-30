@@ -3,9 +3,8 @@
 @import 'common/font';
 @import 'common/common';
 
-
-// tab
-@import 'components/tab';
+// layout
+@import 'components/layout/header';
 
 // main
 @import 'components/bestCard';
@@ -16,3 +15,6 @@
 
 // search
 @import 'search/search';
+
+// tab
+@import 'components/tab';

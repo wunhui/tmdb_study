@@ -1,3 +1,3 @@
-import TvDetails from "@screens/tvDetail/TvDetail"
+import TvDetails from "@screens/tv/tvDetail/TvDetail"
 
 export default TvDetails;

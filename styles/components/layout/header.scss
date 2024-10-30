@@ -1,0 +1,43 @@
+.l_header {
+    margin-bottom: 20px;
+    .wrap{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        .left{
+            display: flex;
+            align-items: center;
+            .logo {
+                margin-right: 40px;
+                color: $White;
+                font: {
+                    size: 32px;
+                    weight: bold;
+                }
+            }
+            .gnb {
+                ul {
+                    display: flex;
+                    align-items: center;
+                    li {
+                        a {
+                            color: $White;
+                            font: {
+                                size: 18px;
+                                weight: 500;
+                            }
+                            &:hover {
+                                color: #ccc;
+                            }
+                        }
+                        &:not(:last-child) {
+                            margin-right: 32px;
+                        }
+                    }
+                }
+            }
+        }
+        .right{}
+    }
+}

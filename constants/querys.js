@@ -7,6 +7,10 @@ export class QueryKeys {
     static TAB_MOVIE = 'TAB_MOVIE';
     static BEST_MOVIE = 'BEST_MOVIE';
     static FAVORITE_MOVIE = 'FAVORITE_MOVIE';
+    static NOW_MOVIE = 'NOW_MOVIE';
+    static POPULAR_MOVIE = 'POPULAR_MOVIE';
+    static TOPRATED_MOVIE = 'TOPRATED_MOVIE';
+    static UPCOMING_MOVIE = 'UPCOMING_MOVIE';
     static DETAIL_MOVIE_INFO = 'DETAIL_MOVIE_INFO';
     static MOVIE_RATING_LIST = 'MOVIE_RATING_LIST';
     
@@ -27,6 +31,10 @@ export class QueryKeys {
     static CATEGORY_MOVIE_ITEMS = [...this.MAIN_MOVIE_QUERY, this.TAB_MOVIE];
     static BEST_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.BEST_MOVIE];
     static FAVORITE_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.FAVORITE_MOVIE];
+    static NOW_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.NOW_MOVIE];
+    static POPULAR_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.POPULAR_MOVIE];
+    static TOPRATED_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.TOPRATED_MOVIE];
+    static UPCOMING_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.UPCOMING_MOVIE];
 
     // 상세 쿼리
     static DETAIL_MOVIE = [...this.MOVIES, this.DETAIL_MOVIE];

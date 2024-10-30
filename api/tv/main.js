@@ -14,6 +14,8 @@ export const fetchTopRatedTivs = async (page) => {
     }
 }
 
+
+// 즐겨찾기 티비 리스트
 export const fetchFavoriteTvs = async () => {
     try {   
         const response = await TryRequestGet(`https://api.themoviedb.org/3/account/21584745/favorite/tv?language=ko-KR&page=1&sort_by=created_at.asc`);

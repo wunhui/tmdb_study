@@ -38,3 +38,21 @@ export const fetchFavoriteMovies = async () => {
         console.error('error :', err)
     }
 } 
+
+// 현재 상영작
+export const fetchNowPlayingMovies = async (page) => {
+    try {
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=${page}`)
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results
+    } catch(err) {
+        console.error('error :', err)
+    }
+}
+
+// 인기있는 영화
+// 최고 평점 영화
+// 상영 예정작

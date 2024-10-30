@@ -1,3 +1,3 @@
-import MovieDetail from "@screens/movieDetail/MovieDetail";
+import MovieDetail from "@screens/movies/movieDetail/MovieDetail";
 
 export default MovieDetail;
