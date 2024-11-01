@@ -54,5 +54,30 @@ export const fetchNowPlayingMovies = async (page) => {
 }
 
 // 인기있는 영화
-// 최고 평점 영화
+export const fetchPopularPlayingMovies = async (page) => {
+    try {
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`)
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results
+    } catch(err) {
+        console.error('error :', err)
+    }
+}
+
+
 // 상영 예정작
+export const fetchUpcomingPlayingMovies = async (page) => {
+    try {
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/movie/upcoming?language=ko-KR&page=${page}`)
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results
+    } catch(err) {
+        console.error('error :', err)
+    }
+}

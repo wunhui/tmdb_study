@@ -21,6 +21,9 @@ export class QueryKeys {
     static SEARCH_TV = 'SEARCH_TV';
     static TAB_TV = 'TAB_TV';
     static BEST_TV = 'BEST_TV';
+    static POPULAR_TV = 'POPULAR_TV';
+    static TODAY_TV = 'TODAY_TV';
+    static ONAIR_TV = 'ONAIR_TV';
     static FAVORITE_TV = 'FAVORITE_TV';
     static DETAIL_TV_INFO = 'DETAIL_TV_INFO';
     static DETAIL_TV_VIDEO = 'DETAIL_TV_VIDEO';
@@ -33,7 +36,6 @@ export class QueryKeys {
     static FAVORITE_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.FAVORITE_MOVIE];
     static NOW_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.NOW_MOVIE];
     static POPULAR_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.POPULAR_MOVIE];
-    static TOPRATED_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.TOPRATED_MOVIE];
     static UPCOMING_MOVIE_QUERY = [...this.MAIN_MOVIE_QUERY, this.UPCOMING_MOVIE];
 
     // 상세 쿼리
@@ -48,7 +50,11 @@ export class QueryKeys {
     static MAIN_TV_QUERY = [...this.TV, this.MAIN_TV];
     static CATEGORY_TV_ITEMS = [...this.MAIN_TV_QUERY, this.TAB_TV];
     static BEST_TV_QUERY = [...this.MAIN_TV_QUERY, this.BEST_TV];
+    static POPULAR_TV_QUERY = [...this.MAIN_TV_QUERY, this.POPULAR_TV];
+    static TODAY_TV_QUERY = [...this.MAIN_TV_QUERY, this.TODAY_TV];
+    static ONAIR_TV_QUERY = [...this.MAIN_TV_QUERY, this.ONAIR_TV];
     static FAVORITE_TV_QUERY = [...this.MAIN_TV_QUERY, this.FAVORITE_TV];
+
 
     // // 상세 쿼리
     static DETAIL_TV = [...this.TV, this.DETAIL_TV];

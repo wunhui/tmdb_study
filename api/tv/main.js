@@ -28,3 +28,45 @@ export const fetchFavoriteTvs = async () => {
         console.log('티비 즐겨찾기 목록 오류',error)
     }
 }
+
+// 오늘 방영 프로그램 리스트
+export const fetchTodayTvs = async (page) => {
+    try {
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/tv/airing_today?language=ko-KR&page=${page}`)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results
+    } catch (err) {
+        console.log('error :', err)
+    }
+}
+
+// 방송 중 티비 프로그램 리스트
+export const fetchOnAirTivs = async (page) => {
+    try {
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/tv/on_the_air?language=ko-KR&page=${page}`)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results
+    } catch (err) {
+        console.log('error :', err)
+    }
+}
+
+// 최고평점 티비 프로그램 리스트
+export const fetchPopularTivs = async (page) => {
+    try {
+        const response = await TryRequestGet(`https://api.themoviedb.org/3/tv/popular?language=${page}`)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results
+    } catch (err) {
+        console.log('error :', err)
+    }
+}

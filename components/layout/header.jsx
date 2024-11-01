@@ -12,7 +12,7 @@ const Header = ({children}) => {
                     <nav className="gnb">
                         <ul>
                             <li><Link href="/movies">영화</Link></li>
-                            <li><Link href="/series">TV</Link></li>
+                            <li><Link href="/tv">TV</Link></li>
                             <li><Link href="/tv">인물</Link></li>
                         </ul>
                     </nav>    
